@@ -158,7 +158,9 @@ class Characterize_Admin {
 
 	public function characterize_register_gutenberg_block() {
 		// Check if the current screen is for the 'character' post type
-		if (is_admin() && isset($_GET['post']) && get_post_type($_GET['post']) === 'character') {
+		if ( ( is_admin() && isset($_GET['post_type']) && $_GET['post_type']==='character' ) || 
+			 ( is_admin() && isset($_GET['post']) && get_post_type($_GET['post']) === 'character') ) {
+
 			wp_register_script(
 				'characterize-gutenberg-block',
 				plugin_dir_url( __FILE__ ) . 'js/block.js',
