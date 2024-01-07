@@ -1,0 +1,13 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+ .character-error{
+    color: red;
+    font-size: 0.8rem;
+ }
+
+ .error-input input[type="text"] {
+    border-color: red !important;
+    color: red;
+ }
