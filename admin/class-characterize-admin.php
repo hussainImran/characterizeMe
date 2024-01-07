@@ -112,7 +112,7 @@ class Characterize_Admin {
 			'label'                 => __( 'Character', 'characterize' ),
 			'description'           => __( 'Character post type', 'characterize' ),
 			'labels'                => $labels,
-			'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
+			'supports'              => array( 'title', 'editor', 'thumbnail' ),
 			'taxonomies'            => array( 'category', 'post_tag' ),
 			'hierarchical'          => false,
 			'public'                => true,

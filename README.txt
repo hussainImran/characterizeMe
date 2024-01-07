@@ -30,4 +30,4 @@ e.g.
 * Minor issues fixed and made some improvments.
 
 = 1.0.0 =
-* First Released.
+* First Released 🚀.

@@ -4,7 +4,7 @@
     const { select, dispatch } = wp.data;
     const { registerBlockType } = wp.blocks;
     const { TextControl } = wp.components;
-    const { useEffect, useRef } = wp.element;
+    const { useEffect, useRef, useState } = wp.element;
 
     registerBlockType('custom/characterize-block', {
         title: 'Characterize Block',
@@ -26,6 +26,8 @@
             // Use a ref to track whether the effect has run
             const hasEffectRun = useRef(false);
 
+            const [typingTimeout, setTypingTimeout] = useState(null);
+
             useEffect(() => {
                 
                 // Run the effect only if it hasn't run before
@@ -38,6 +40,19 @@
                     // Mark the effect as run
                     hasEffectRun.current = true;
                 }
+
+                 // Clear previous timeout
+                 if (typingTimeout) {
+                    clearTimeout(typingTimeout);
+                }
+
+                // Set a new timeout for 700 milliseconds
+                const timeout = setTimeout(() => {
+                    fetchData();
+                }, 700);
+
+                // Save the timeout ID for cleanup
+                setTypingTimeout(timeout);
 
                 // Define an asynchronous function inside useEffect
                 const fetchData = async () => {
@@ -67,9 +82,6 @@
                         }
                     }
                 };
-
-                // Call the asynchronous function
-                fetchData();
 
             }, [attributes.characterID]);
 
