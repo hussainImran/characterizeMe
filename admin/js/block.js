@@ -32,11 +32,7 @@
                 
                 // Run the effect only if it hasn't run before
                 if (!hasEffectRun.current) {
-                    // if characterID is blank set default to the post_id
-                    if (attributes.characterID === '' ) {
-                        setAttributes({ characterID: postID });
-                    }
-
+                    handleInitialEffect();
                     // Mark the effect as run
                     hasEffectRun.current = true;
                 }
@@ -55,53 +51,69 @@
                 setTypingTimeout(timeout);
 
                 // Define an asynchronous function inside useEffect
-                const fetchData = async () => {
+                async function fetchData() {
                     if (postID && attributes.characterID !== '') {
                         try {
-                            const response = await fetch('https://thronesapi.com/api/v2/Characters/' + attributes.characterID);
-                            const data = await response.json();
+                            const data = await makeApiCall(attributes.characterID);
 
-                            if ( Object.keys(data).length > 1 && !data.hasOwnProperty('errors') ) {
-                                // Remove error message
-                                setAttributes({ error: '' });
-
-                                // Update post title to fullName
-                                dispatch('core/editor').editPost({ title: data.fullName });
-
-                                // Set featured image to imageUrl
-                                const thumbnailID = await getAttachmentID(data.imageUrl);
-                                if (thumbnailID) {
-                                    dispatch('core/editor').editPost({ featured_media: thumbnailID });
-                                }
+                            if (Object.keys(data).length > 1 && !data.hasOwnProperty('errors')) {
+                                handleApiSuccess(data);
                             } else {
-                                setAttributes({ error: 'No record found associated with this character ID' });
+                                handleApiError('No record found associated with this character ID');
                             }
                         } catch (error) {
-                            setAttributes({ error: 'Failed to make API call. For more info see console log.' });
-                            console.error('API call failed:', error);
+                            handleApiError('Failed to make API call. For more info see console log.', error);
                         }
                     }
-                };
+                }
 
-            }, [attributes.characterID]);
+                async function makeApiCall(characterID) {
+                    const response = await fetch(`https://thronesapi.com/api/v2/Characters/${characterID}`);
+                    return response.json();
+                }
 
-            // Function to get attachment ID based on the image URL
-            async function getAttachmentID(imageUrl) {
-                try {
+                function handleFeaturedImage(imageUrl) {
+                    getAttachmentID(imageUrl)
+                        .then(thumbnailID => {
+                            if (thumbnailID) {
+                                dispatch('core/editor').editPost({ featured_media: thumbnailID });
+                            }
+                        })
+                        .catch(error => handleApiError('Error getting attachment ID. For more info see console log.', error));
+                }
+
+                // Function to get attachment ID based on the image URL
+                async function getAttachmentID(imageUrl) {
                     const response = await fetch(`${ajaxurl}?action=get_attachment_id&imageUrl=${imageUrl}&_nonce=${chobj.nonce}`);
                     const data = await response.json();
-                    if(!data.error) {
-                        return data.attachment_id
-                    }
-                    setAttributes({ error: data.message });
-                    return 0;
 
-                } catch (error) {
-                    setAttributes({ error: 'Error getting attachment ID. For more info see console log.' });
-                    console.error('Error getting attachment ID:', error);
+                    if (!data.error) {
+                        return data.attachment_id;
+                    }
+
+                    handleApiError(data.message);
                     return 0;
                 }
-            }
+
+                function handleApiSuccess(data) {
+                    setAttributes({ error: '' });
+                    dispatch('core/editor').editPost({ title: data.fullName });
+                    handleFeaturedImage(data.imageUrl);
+                }
+
+                function handleApiError(errorMessage, error = null) {
+                    setAttributes({ error: errorMessage });
+                    if(error)console.error('API call failed:', error);
+                }
+
+                function handleInitialEffect() {
+                    // if characterID is blank set default to the post_id
+                    if (attributes.characterID === '') {
+                        setAttributes({ characterID: postID });
+                    }
+                }
+
+            }, [attributes.characterID]);
 
             return wp.element.createElement(
                 'div',
