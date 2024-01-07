@@ -157,19 +157,22 @@ class Characterize_Admin {
 	}
 
 	public function characterize_register_gutenberg_block() {
-		wp_register_script(
-			'characterize-gutenberg-block',
-			plugin_dir_url( __FILE__ ) . 'js/block.js',
-			array('wp-blocks', 'wp-components', 'wp-element', 'wp-data')
-		);
+		// Check if the current screen is for the 'character' post type
+		if (is_admin() && isset($_GET['post']) && get_post_type($_GET['post']) === 'character') {
+			wp_register_script(
+				'characterize-gutenberg-block',
+				plugin_dir_url( __FILE__ ) . 'js/block.js',
+				array('wp-blocks', 'wp-components', 'wp-element', 'wp-data')
+			);
 
-		wp_localize_script('characterize-gutenberg-block', 'chobj', array(
-			'nonce' =>  wp_create_nonce( 'char-attach-id' )
-		));
-	
-		register_block_type('custom/characterize-block', array(
-			'editor_script' => 'characterize-gutenberg-block',
-		));
+			wp_localize_script('characterize-gutenberg-block', 'chobj', array(
+				'nonce' =>  wp_create_nonce( 'char-attach-id' )
+			));
+		
+			register_block_type('custom/characterize-block', array(
+				'editor_script' => 'characterize-gutenberg-block',
+			));
+		}
 	}
 
 }
