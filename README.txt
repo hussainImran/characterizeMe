@@ -1,36 +1,34 @@
-=== Plugin Name ===
+=== Characterize ===
 Contributors: wpimran
-Donate link: https://www.linkedin.com/in/imran-hussain-46120270//
 Tags: characterize
 Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
+Tested up to: 5.9
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin update post title and featured image from an API as user type character ID in Characterize Block.
+This plugin updates the post title and featured image of character post type from an API as the user types the character ID in the Characterize Block.
 
-== Description ==
+## Description
 
-This plugin update post title and featured image from an API as user type character ID in Characterize Block.
+Characterize is a WordPress plugin that automatically updates the post title and featured image of character post types based on user input character IDs in the Characterize Block. It interacts with an external API to fetch relevant data.
 
+## Installation
 
-== Installation ==
+1. Upload `characterize.php` to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
 
-1. Upload `characterize.php` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+## How to Use
 
-== Uses ==
+1. Add the Characterize Block in the Gutenberg editor.
+2. Enter the character ID in the input box (max ID according to the API is 52).
+3. Check the post title & featured image, updated from the API response.
+4. If a number doesn't have an associated character, an error message will be displayed.
 
-1. Add Characterize Block in gutenberg editor.
-2. Enter character id in input box ( max id according to API is 52 ).
-3. Check Post title & Featured image updated from API response.
-4. If a number don't have character associated, it'll show an error message.
-
-== Changelog ==
+## Changelog
 
 = 1.0.1 =
-* Minor issues fixed and made some improvments.
+* Minor issues fixed and made some improvements.
 
 = 1.0.0 =
 * First Released 🚀.
