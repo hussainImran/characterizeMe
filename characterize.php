@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://https://www.linkedin.com/in/imran-hussain-46120270/
+ * @link              https://github.com/hussainImran
  * @since             1.0.0
  * @package           Characterize
  *
  * @wordpress-plugin
  * Plugin Name:       Characterize Me
- * Plugin URI:        https://example.com
+ * Plugin URI:        https://github.com/hussainImran/characterizeMe
  * Description:       Update CPT title and featured image from API
  * Version:           1.0.1
  * Author:            Imran Hussain
- * Author URI:        https://https://www.linkedin.com/in/imran-hussain-46120270//
+ * Author URI:        https://github.com/hussainImran
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       characterize
